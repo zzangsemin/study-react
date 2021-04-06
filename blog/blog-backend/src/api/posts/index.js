@@ -1,13 +1,20 @@
-const Router = require('koa-router');
-const postsCtrl = require('./posts.ctrl');
+import Router from 'koa-router';
+// import { list, write, read, remove, update } from './posts.ctrl';
+import * as postCtrl from './posts.ctrl';
 
 const posts = new Router();
 
-posts.get('/', postsCtrl.list);
-posts.post('/', postsCtrl.write);
-posts.get('/:id', postsCtrl.read);
-posts.delete('/:id', postsCtrl.remove);
-posts.put('/:id', postsCtrl.replace);
-posts.patch('/:id', postsCtrl.update);
+posts.get('/', postCtrl.list);
+posts.post('/', postCtrl.write);
+// posts.get('/:id', postCtrl.checkObjectId, postCtrl.read); // 이렇게 미들웨어를 추가해줘도 됨
+// posts.delete('/:id', postCtrl.checkObjectId, postCtrl.remove);
+// posts.patch('/:id', postCtrl.checkObjectId, postCtrl.update);
 
-module.exports = posts;
+const post = new Router(); // /api/posts/:id
+post.get('/', postCtrl.read);
+post.delete('/', postCtrl.remove);
+post.patch('/', postCtrl.update);
+
+posts.use('/:id', postCtrl.checkObjectId, post.routes());
+
+export default posts;
