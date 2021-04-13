@@ -2,7 +2,7 @@ import React from 'react';
 import qs from 'qs';
 import { withRouter } from 'react-router';
 import { useSelector } from 'react-redux';
-import Pagination from '../../components/posts/Pagination';
+import Pagination from '../../components/post/Pagination';
 
 const PaginationContainer = ({ location, match }) => {
   const { lastPage, posts, loading } = useSelector(({ posts, loading }) => ({
@@ -13,8 +13,6 @@ const PaginationContainer = ({ location, match }) => {
 
   // 포스트 데이터가 없거나 로딩 중이면 아무것도 보여주지 않음
   if (!posts || !loading) {
-    console.log(loading);
-    console.log(posts);
     return null;
   }
 
